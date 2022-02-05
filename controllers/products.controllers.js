@@ -58,3 +58,18 @@ exports.deleteProductController = async (req, res) => {
   //products = products.filter((product) => +product.id !== +productId);
   //res.status(202).json(products);
 };
+
+exports.updateProductController = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const product = req.body;
+    const updateProduct = await Product.findByIdAndUpdate(productId, product);
+    if (updateProduct) {
+      res.status(200).json({ msg: "Updated" });
+    } else {
+      res.status(404).json({ msg: "product doesn't exist" });
+    }
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+};
